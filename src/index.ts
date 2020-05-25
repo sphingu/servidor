@@ -2,25 +2,20 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 import connectDatabase from './db'
-import UserModel, { User } from './models/user'
+import { getGraphQLServer } from './graphql-server'
 
-const app: express.Application = express()
+getGraphQLServer().then((graphQLServer) => {
+  connectDatabase()
 
-app.use(bodyParser.json())
+  const app: express.Application = express()
 
-connectDatabase()
+  app.use(bodyParser.json())
 
-app.get('/', async function (req, res) {
-  new UserModel({
-    name: 'Sumit',
-    description: 'my Description'
-  } as User).save()
+  graphQLServer.applyMiddleware({ app, path: '/g' })
 
-  const user = await UserModel.findOne()
-  console.log(user) // { _id
-  res.send('Hello from servidor app!')
-})
-
-app.listen(3000, function () {
-  console.log('servidor App is listening on port 3000!')
+  app.listen(3000, function () {
+    console.log(
+      `🚀 Servidor app ready at http://localhost:3000${graphQLServer.graphqlPath}`
+    )
+  })
 })
