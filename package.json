@@ -1,0 +1,57 @@
+{
+  "name": "servidor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sphingu/servidor.git",
+  "author": "<sumit.hingu@einfochips.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsnd --respawn -r @babel/register src/index.ts",
+    "build": "babel ./src -d ./dist --extensions .ts",
+    "typecheck": "tsc",
+    "start": "node dist/index.js",
+    "lint:base": "eslint --ext .js,.json,.ts",
+    "lint": "yarn lint:base 'src/**'"
+  },
+  "lint-staged": {
+    "src/**/*": [
+      "yarn lint:base --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn typecheck && lint-staged"
+    }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "@types/express": "^4.17.6",
+    "@types/mongoose": "^5.7.21",
+    "@types/node": "^14.0.5",
+    "@typescript-eslint/eslint-plugin": "^3.0.0",
+    "@typescript-eslint/parser": "^3.0.0",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.6",
+    "prettier": "^2.0.5",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "@typegoose/typegoose": "^7.1.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.15"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+}
