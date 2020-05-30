@@ -6,7 +6,7 @@
   "author": "sphingu@gmail.com",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --respawn src/index.ts",
+    "dev": "tsnd -r tsconfig-paths/register --respawn src/index.ts",
     "build": "tsc -p tsconfig.json --noEmit false",
     "typecheck": "tsc",
     "start": "node out/index.js",
@@ -38,6 +38,7 @@
     "lint-staged": "^10.2.6",
     "prettier": "^2.0.5",
     "ts-node-dev": "^1.0.0-pre.44",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {

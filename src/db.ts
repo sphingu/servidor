@@ -16,9 +16,8 @@ export default (): mongoose.Connection => {
   connect(mongoUrl, {
     //  bufferCommands: false,
     // bufferMaxEntries: 0,
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
-    // useCreateIndex: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).catch((e) => {

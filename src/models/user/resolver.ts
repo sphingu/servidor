@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb'
 import { Arg, Query, Resolver, Mutation } from 'type-graphql'
 
 import { UserModel } from './model'
-import { ObjectIdScalar } from '../../helpers'
+import { ObjectIdScalar } from 'helpers'
 
 import { User, UserInput } from './types'
 
