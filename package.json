@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/sphingu/servidor.git",
-  "author": "<sumit.hingu@einfochips.com>",
+  "author": "sphingu@gmail.com",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --respawn -r @babel/register src/index.ts",
-    "build": "babel ./src -d ./out --extensions .ts",
-    "build:tsc": "tsc -p tsconfig.json --noEmit false",
+    "dev": "tsnd --respawn src/index.ts",
+    "build": "tsc -p tsconfig.json --noEmit false",
     "typecheck": "tsc",
     "start": "node out/index.js",
     "lint:base": "eslint --ext .js,.json,.ts",
@@ -26,12 +25,6 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.6",
-    "@babel/node": "^7.8.7",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-typescript": "^7.9.0",
-    "@babel/register": "^7.9.0",
     "@types/express": "^4.17.6",
     "@types/graphql": "^14.5.0",
     "@types/mongoose": "^5.7.21",
@@ -52,6 +45,7 @@
     "apollo-server-express": "^2.13.1",
     "body-parser": "^1.19.0",
     "class-validator": "^0.12.2",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.15",
     "type-graphql": "^1.0.0-rc.2"

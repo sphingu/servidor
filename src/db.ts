@@ -1,19 +1,29 @@
 import { connect, connection } from 'mongoose'
+import { mongoose } from '@typegoose/typegoose'
 
-const mongoHost = 'mongodb://localhost:27017/servidor'
-export default (): void => {
-  connect(mongoHost, {
+const LOG = {
+  OPENED: 'Connected to database',
+  ERROR: (error: Error) => `Connection error : ${error.message}`,
+  CONNECT_ERROR: 'MongoDB Connection Error:'
+}
+
+const mongoUrl = process.env.MONGODB_URI_LOCAL as string
+
+export default (): mongoose.Connection => {
+  connection.on('error', (err) => console.error(LOG.ERROR(err)))
+  connection.once('open', () => console.info(LOG.OPENED))
+
+  connect(mongoUrl, {
+    //  bufferCommands: false,
+    // bufferMaxEntries: 0,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
+    // useCreateIndex: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    dbName: 'test'
+    useUnifiedTopology: true
   }).catch((e) => {
-    console.error('MongoDB Connection Error:')
-    console.error(JSON.stringify(e, null, '  '))
+    console.error(LOG.CONNECT_ERROR, JSON.stringify(e, null, '  '))
   })
-  connection.on('error', (err) => {
-    console.error(`Connection error: ${err.message}`)
-  })
-  connection.once('open', () => {
-    console.info('Connected to database')
-  })
+
+  return connection
 }

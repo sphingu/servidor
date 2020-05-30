@@ -3,7 +3,7 @@ import { buildSchema } from 'type-graphql'
 import { ObjectId } from 'mongodb'
 import { GraphQLSchema } from 'graphql'
 
-import { UserResolver } from './resolvers'
+import { UserResolver } from './models'
 import { ObjectIdScalar } from './helpers'
 
 const getSchema = async (): Promise<GraphQLSchema> => {
@@ -17,7 +17,12 @@ const getSchema = async (): Promise<GraphQLSchema> => {
 export const getGraphQLServer = async (): Promise<ApolloServer> => {
   const schema = await getSchema()
 
-  const server = new ApolloServer({ schema })
+  const server = new ApolloServer({
+    schema,
+    introspection: true,
+    engine: false,
+    tracing: true
+  })
 
   return server
 }
