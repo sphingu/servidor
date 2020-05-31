@@ -11,10 +11,6 @@ export class User extends Base {
     required: true,
     lowercase: true,
     trim: true
-    // validate: {
-    //   validator: (): boolean => true,
-    //   message: 'validation error message'
-    // }
   })
   name: string
 

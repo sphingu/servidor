@@ -3,12 +3,12 @@ import { buildSchema } from 'type-graphql'
 import { ObjectId } from 'mongodb'
 import { GraphQLSchema } from 'graphql'
 
-import { UserResolver } from './models'
 import { ObjectIdScalar } from './helpers'
+import { UserResolver, TransactionResolver } from 'resolvers'
 
 const getSchema = async (): Promise<GraphQLSchema> => {
   return await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, TransactionResolver],
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
     dateScalarMode: 'timestamp'
   })
