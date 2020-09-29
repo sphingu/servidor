@@ -6,6 +6,7 @@
   "author": "sphingu@gmail.com",
   "license": "MIT",
   "scripts": {
+    "db": "mongod --dbpath=\\data",
     "dev": "tsnd -r tsconfig-paths/register --respawn src/index.ts",
     "build": "tsc -p tsconfig.json --noEmit false",
     "typecheck": "tsc",
@@ -46,6 +47,7 @@
     "apollo-server-express": "^2.13.1",
     "body-parser": "^1.19.0",
     "class-validator": "^0.12.2",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.15",

@@ -1,12 +1,5 @@
 import { ObjectId } from 'mongodb'
-import {
-  Arg,
-  Query,
-  Resolver,
-  Mutation,
-  FieldResolver,
-  Root
-} from 'type-graphql'
+import { Arg, Resolver, Mutation, FieldResolver, Root } from 'type-graphql'
 
 import { Transaction, TransactionInput } from 'models/transaction'
 import { User } from 'models/user'

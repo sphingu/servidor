@@ -1,6 +1,7 @@
 import './env'
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 
 import connectDatabase from './db'
 import { getGraphQLServer } from './graphql-server'
@@ -11,6 +12,7 @@ getGraphQLServer().then((graphQLServer) => {
   const app: express.Application = express()
 
   app.use(bodyParser.json())
+  app.use(cors())
 
   graphQLServer.applyMiddleware({ app })
 

@@ -1,5 +1,6 @@
 import { GraphQLScalarType, Kind } from 'graphql'
 import { ObjectId } from 'mongodb'
+import { DEFAULT_DELAY_MS } from 'constants/index'
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'ObjectId',
@@ -23,3 +24,8 @@ export const capitalize = (s: string): string => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+export const sleep = (ms: number = DEFAULT_DELAY_MS): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })

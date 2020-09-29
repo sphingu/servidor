@@ -20,6 +20,8 @@ export function createBaseResolver<T extends ClassType>(
   @Resolver({ isAbstract: true })
   abstract class BaseResolver<T> implements IBaseResolver<T> {
     constructor(protected readonly _repo: IBaseRepository<T>) {}
+
+    //#region Queries
     @Query(() => objectTypeCls, {
       nullable: true,
       name: `get${suffix}`
@@ -38,6 +40,7 @@ export function createBaseResolver<T extends ClassType>(
     async delete(@Arg('id') id: ObjectId): Promise<T | null> {
       return await this._repo.delete(id)
     }
+    //#endregion
   }
 
   return BaseResolver
