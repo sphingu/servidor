@@ -3,26 +3,52 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Mutation {
-  createUser(data: UserInput!): User!
-  deleteUser(_id: String!): Boolean!
+input CreateTransactionInput {
+  amount: Int!
+  date: DateTime!
+  name: String!
 }
 
-"""Mongo object id scalar type"""
-scalar ObjectId
+input CreateUserInput {
+  name: String!
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Mutation {
+  createTransaction(data: CreateTransactionInput!, payerId: String!): Transaction!
+  createUser(data: CreateUserInput!): User!
+  deleteUser(id: String!): Boolean!
+  updateUser(data: UpdateUserInput!, id: String!): User!
+}
 
 type Query {
-  user(_id: ObjectId!): User
+  transactions: [Transaction!]
   users: [User!]
 }
 
-type User {
-  _id: ObjectId!
-  description: String
+type Transaction {
+  amount: Float!
+  createdAt: DateTime!
+  date: DateTime!
+  id: ID!
   name: String!
+  payer: User!
+  updatedAt: DateTime!
+  version: Int!
 }
 
-input UserInput {
-  description: String
+input UpdateUserInput {
+  name: String
+}
+
+type User {
+  createdAt: DateTime!
+  id: ID!
   name: String!
+  updatedAt: DateTime!
+  version: Int!
 }

@@ -1,31 +1,5 @@
-import { GraphQLScalarType, Kind } from 'graphql'
-import { ObjectId } from 'mongodb'
-import { DEFAULT_DELAY_MS } from 'constants/index'
+import { Column, ColumnOptions } from 'typeorm'
 
-export const ObjectIdScalar = new GraphQLScalarType({
-  name: 'ObjectId',
-  description: 'Mongo object id scalar type',
-  parseValue(value: string): ObjectId {
-    return new ObjectId(value) // value from the client input variables
-  },
-  serialize(value: ObjectId): string {
-    return value.toHexString() // value sent to the client
-  },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  parseLiteral(ast): ObjectId | null {
-    if (ast.kind === Kind.STRING) {
-      return new ObjectId(ast.value) // value from the client query
-    }
-    return null
-  }
-})
-
-export const capitalize = (s: string): string => {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
+export function RelationColumn(options?: ColumnOptions) {
+  return Column({ nullable: true, ...options })
 }
-
-export const sleep = (ms: number = DEFAULT_DELAY_MS): Promise<void> =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })

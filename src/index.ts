@@ -1,24 +1,35 @@
-import './env'
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
+import 'reflect-metadata'
 
-import connectDatabase from './db'
-import { getGraphQLServer } from './graphql-server'
+import { ApolloServer } from 'apollo-server'
+import { Container } from 'typedi'
+import * as TypeORM from 'typeorm'
+import * as TypeGraphQL from 'type-graphql'
+import { UserResolver } from './resolvers'
 
-getGraphQLServer().then((graphQLServer) => {
-  connectDatabase()
+TypeORM.useContainer(Container)
 
-  const app: express.Application = express()
+async function main() {
+  try {
+    const connection = await TypeORM.createConnection()
 
-  app.use(bodyParser.json())
-  app.use(cors())
+    // seed database ???
 
-  graphQLServer.applyMiddleware({ app })
+    const schema = await TypeGraphQL.buildSchema({
+      resolvers: [UserResolver],
+      container: Container,
+      emitSchemaFile: true,
+    })
 
-  app.listen(process.env.PORT, function () {
-    console.log(
-      `🚀 Servidor app ready at http://localhost:${process.env.PORT}${graphQLServer.graphqlPath}`
-    )
-  })
-})
+    // Context ??
+    const server = new ApolloServer({
+      schema,
+    })
+
+    const { url } = await server.listen(4000)
+    console.log(`Server is running, GraphQL Playground available at ${url}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+main()

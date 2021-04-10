@@ -1,8 +1,8 @@
 import {
   ValidatorConstraint,
-  ValidatorConstraintInterface
+  ValidatorConstraintInterface,
 } from 'class-validator'
-import { REGEX } from 'constants/index'
+import { REGEX } from '../constants'
 
 @ValidatorConstraint()
 export class AlphaWithSpace implements ValidatorConstraintInterface {
