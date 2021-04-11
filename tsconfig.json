@@ -20,5 +20,6 @@
     // for express
     // "moduleResolution": "Node",
     // "allowSyntheticDefaultImports": true
+    "types": ["node"]
   }
 }

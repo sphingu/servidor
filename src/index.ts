@@ -1,35 +1,12 @@
-import 'reflect-metadata'
-
 import { ApolloServer } from 'apollo-server'
-import { Container } from 'typedi'
-import * as TypeORM from 'typeorm'
-import * as TypeGraphQL from 'type-graphql'
-import { UserResolver } from './resolvers'
 
-TypeORM.useContainer(Container)
+import schema from './schema'
+import context from './context'
 
-async function main() {
-  try {
-    const connection = await TypeORM.createConnection()
+const server = new ApolloServer({ schema, context })
 
-    // seed database ???
-
-    const schema = await TypeGraphQL.buildSchema({
-      resolvers: [UserResolver],
-      container: Container,
-      emitSchemaFile: true,
-    })
-
-    // Context ??
-    const server = new ApolloServer({
-      schema,
-    })
-
-    const { url } = await server.listen(4000)
-    console.log(`Server is running, GraphQL Playground available at ${url}`)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-main()
+server.listen().then(({ url }) => {
+  console.log(`
+  🚀 Server ready at: ${url}
+⭐️ See sample queries: http://pris.ly/e/js/graphql-sdl-first#using-the-graphql-api`)
+})
