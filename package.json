@@ -1,41 +1,46 @@
 {
   "name": "servidor",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "main": "index.js",
   "repository": "https://github.com/sphingu/servidor.git",
   "author": "sphingu@gmail.com",
   "license": "MIT",
   "scripts": {
-    "start": "npm run build && node build/index.js",
+    "start": "npm run build && node dist/index.js",
     "dev": "nodemon",
-    "build": "rimraf ./build && tsc",
-    "gen": "graphql-codegen",
+    "dev-from-sample": "ts-node-dev --transpile-only --no-notify api/index.ts",
+    "build": "rimraf ./dist && tsc",
+    "generate": "prisma generate",
+    "migrate": "prisma migrate",
+    "studio": "prisma studio",
     "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@types/express": "4.17.11",
-    "@types/node": "14.14.37",
-    "@typescript-eslint/eslint-plugin": "4.20.0",
-    "@typescript-eslint/parser": "4.20.0",
-    "eslint": "7.23.0",
+    "@types/node": "14.14.41",
+    "@typescript-eslint/eslint-plugin": "4.22.0",
+    "@typescript-eslint/parser": "4.22.0",
+    "eslint": "7.25.0",
     "nodemon": "2.0.7",
-    "prisma": "2.20.1",
+    "prettier": "^2.2.1",
+    "prisma": "2.21.2",
     "rimraf": "3.0.2",
     "ts-node": "9.1.1",
-    "typescript": "4.2.3"
+    "typescript": "4.2.4"
   },
   "dependencies": {
-    "@prisma/client": "2.20.1",
-    "apollo-server": "2.22.2",
+    "@prisma/client": "2.21.2",
+    "apollo-server": "2.23.0",
     "graphql": "15.5.0",
-    "graphql-codegen": "^0.4.0",
-    "graphql-scalars": "1.9.0"
+    "nexus": "^1.0.0",
+    "nexus-plugin-prisma": "^0.34.1"
   },
   "keywords": [
     "servidor",
     "graphql",
     "prisma",
-    "typescript"
+    "typescript",
+    "apollo-server",
+    "nexus"
   ]
 }

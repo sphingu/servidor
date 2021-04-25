@@ -1,29 +1,16 @@
-import { gql, makeExecutableSchema } from 'apollo-server'
+import { makeSchema } from "nexus";
+import { join } from "path";
 
-// import types from './types.gql'
-import resolvers from './resolvers'
+import * as types from "./graphql";
 
-const typeDefs = gql`
-  type Event {
-    id: ID!
-    createdAt: String!
-    title: String!
-    description: String!
-    price: Int!
-    spaces: Int!
-    duration: Float!
-    date: String!
-  }
-
-  type Query {
-    allUsers: [User!]!
-    listEvents: [Event!]!
-  }
-`
-
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-})
-
-export default schema
+export const schema = makeSchema({
+  types,
+  // outputs: {
+  //   typegen: join(__dirname, "../generated", "nexus-typegen.ts"),
+  //   schema: join(__dirname, "../generated", "schema.graphql"),
+  // },
+  contextType: {
+    module: join(__dirname, "./context.ts"),
+    export: "Context",
+  },
+});

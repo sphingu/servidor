@@ -7,3 +7,8 @@
 - https://github.com/warrenday/prisma-calendar-demo
 
 Node => Typescript => Prisma => Apollo(graphql)
+
+
+Fullstack graphql react prisma: https://github.com/alan345/naperg
+Prisma Strcture: https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/advanced
+Prisma Tool: https://github.com/paljs/prisma-tools

@@ -1,25 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2018",
     "module": "commonjs",
-    "lib": ["es6", "ESNext"],
-    "allowJs": true,
-    "outDir": "build",
-    "rootDir": "src",
+    "sourceMap": true,
+    "outDir": "dist",
     "strict": true,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    // new
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    // for class property
-    "strictPropertyInitialization": false,
-    // for express
-    // "moduleResolution": "Node",
-    // "allowSyntheticDefaultImports": true
-    "types": ["node"]
+    "lib": ["esnext"],
+    "rootDir": "src",
+    "esModuleInterop": true
   }
 }
