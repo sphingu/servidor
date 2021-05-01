@@ -19,6 +19,8 @@
 3. Nexus-Prisma Plugin
   - npm add nexus-plugin-prisma
 
+4. Awaiting for nexus-prisma-generate plugin to be release
+
 
 
   ### OTHER

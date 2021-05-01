@@ -1,32 +1,34 @@
-import { extendType, nonNull, objectType, stringArg } from "nexus";
+import { User as UserSchema } from 'nexus-prisma'
+
+import { extendType, nonNull, objectType, stringArg } from 'nexus'
 
 export const User = objectType({
-  name: "User",
+  name: UserSchema.$name,
 
   definition(t) {
-    t.int("id");
-    t.string("email");
-    t.string("name");
+    t.field(UserSchema.id.name, UserSchema.id)
+    t.field(UserSchema.email.name, UserSchema.email)
+    t.field(UserSchema.id.name, UserSchema.name)
   },
-});
+})
 
 export const UserQuery = extendType({
-  type: "Query",
+  type: 'Query',
   definition(t) {
-    return t.nonNull.list.field("users", {
-      type: "User",
+    return t.nonNull.list.field('users', {
+      type: 'User',
       resolve(_, __, ctx) {
-        return ctx.db.user.findMany();
+        return ctx.db.user.findMany()
       },
-    });
+    })
   },
-});
+})
 
 export const UserMutation = extendType({
-  type: "Mutation",
+  type: 'Mutation',
   definition(t) {
-    t.nonNull.field("createUser", {
-      type: "User",
+    t.nonNull.field('createUser', {
+      type: 'User',
       args: {
         email: nonNull(stringArg()),
         name: nonNull(stringArg()),
@@ -35,10 +37,10 @@ export const UserMutation = extendType({
         const user = {
           email: args.email,
           name: args.name,
-        };
+        }
 
-        return ctx.db.user.create({ data: user });
+        return ctx.db.user.create({ data: user })
       },
-    });
+    })
   },
-});
+})

@@ -1,7 +1,7 @@
-import { makeSchema } from "nexus";
-import { join } from "path";
+import { makeSchema } from 'nexus'
+import { join } from 'path'
 
-import * as types from "./graphql";
+import * as types from './graphql'
 
 export const schema = makeSchema({
   types,
@@ -10,7 +10,7 @@ export const schema = makeSchema({
   //   schema: join(__dirname, "../generated", "schema.graphql"),
   // },
   contextType: {
-    module: join(__dirname, "./context.ts"),
-    export: "Context",
+    module: join(__dirname, './context.ts'),
+    export: 'Context',
   },
-});
+})
