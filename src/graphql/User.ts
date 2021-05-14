@@ -1,6 +1,13 @@
 import { User as UserSchema } from 'nexus-prisma'
 
-import { extendType, nonNull, objectType, stringArg } from 'nexus'
+import {
+  extendType,
+  intArg,
+  nonNull,
+  objectType,
+  queryField,
+  stringArg,
+} from 'nexus'
 
 export const User = objectType({
   name: UserSchema.$name,
@@ -12,17 +19,28 @@ export const User = objectType({
   },
 })
 
-export const UserQuery = extendType({
-  type: 'Query',
-  definition(t) {
-    return t.nonNull.list.field('users', {
-      type: 'User',
-      resolve(_, __, ctx) {
-        return ctx.db.user.findMany()
-      },
-    })
-  },
-})
+export const UsersQuery = queryField((t) =>
+  t.nonNull.list.field('users', {
+    type: 'User',
+    resolve(_, __, ctx) {
+      return ctx.db.user.findMany()
+    },
+  }),
+)
+
+export const UserQuery = queryField((t) =>
+  t.field('user', {
+    type: 'User',
+    args: {
+      id: nonNull(intArg()),
+    },
+    resolve(_, args, ctx) {
+      return ctx.db.user.findUnique({
+        where: { id: args.id },
+      })
+    },
+  }),
+)
 
 export const UserMutation = extendType({
   type: 'Mutation',
