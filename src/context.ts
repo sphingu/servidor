@@ -1,4 +1,6 @@
-import { PrismaClient } from '.prisma/client'
+import { PrismaClient } from '@prisma/client'
+import { $settings } from 'nexus-prisma'
+
 import { db } from './db'
 
 export interface Context {
@@ -8,3 +10,7 @@ export interface Context {
 export const context = {
   db,
 }
+
+$settings({
+  prismaClientContextField: 'db', // <-- Tell Nexus Prisma
+})

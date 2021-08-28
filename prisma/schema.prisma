@@ -22,15 +22,19 @@ model User {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  Transactions Transaction[]
+  transactions Transaction[] @relation("PayerTransactions")
+
+  ownedTransactions Transaction[]
 }
 
 model Transaction {
   id   Int    @id @default(autoincrement())
   name String
 
-  payer   User @relation(fields: [payerId], references: [id])
+  payer   User @relation("PayerTransactions", fields: [payerId], references: [id])
   payerId Int
+
+  ownedUsers User[]
 
   date  DateTime
   month Int // constraint min 1 max 12
