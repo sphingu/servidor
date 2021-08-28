@@ -7,15 +7,16 @@ import {
   objectType,
   queryField,
   stringArg,
+  queryType,
 } from 'nexus'
 
 export const User = objectType({
   name: UserSchema.$name,
-
+  description: UserSchema.$description,
   definition(t) {
-    t.field(UserSchema.id.name, UserSchema.id)
-    t.field(UserSchema.email.name, UserSchema.email)
-    t.field(UserSchema.id.name, UserSchema.name)
+    t.field(UserSchema.id)
+    t.field(UserSchema.email)
+    t.field(UserSchema.name)
   },
 })
 
