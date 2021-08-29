@@ -110,3 +110,4 @@ out/
 data/
 dist/
 prisma/dev.db
+generated/

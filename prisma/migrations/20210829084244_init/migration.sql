@@ -11,6 +11,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Transaction" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
     "payerId" INTEGER NOT NULL,
     "date" DATETIME NOT NULL,
     "month" INTEGER NOT NULL,

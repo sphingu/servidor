@@ -10,12 +10,15 @@
     "start": "npm run build && node dist/index.js",
     "dev": "nodemon",
     "dev-from-sample": "ts-node-dev --transpile-only --no-notify api/index.ts",
+    "build:reflection": "NEXUS_SHOULD_EXIT_AFTER_REFLECTION=true ts-node src/index.ts",
     "build": "rimraf ./dist && tsc",
-    "generate": "prisma generate",
-    "dbpush": "prisma db push",
-    "migrate": "prisma migrate",
-    "studio": "prisma studio",
-    "lint": "eslint . --ext .ts",
+    "prisma": "prisma",
+    "p:generate": "prisma generate",
+    "p:push": "prisma db push",
+    "p:migrate": "prisma migrate",
+    "p:studio": "prisma studio",
+    "lint": "prettier --check --plugin-search-dir=. . && eslint . --ext .ts",
+    "format": "prettier --write --plugin-search-dir=. .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -28,13 +31,13 @@
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "2.0.7",
     "prettier": "^2.2.1",
-    "prisma": "2.30.0",
+    "prisma": "^2.30.0",
     "rimraf": "3.0.2",
     "ts-node": "10.2.1",
-    "typescript": "4.4.2"
+    "typescript": "4.2.4"
   },
   "dependencies": {
-    "@prisma/client": "2.30.0",
+    "@prisma/client": "^2.30.0",
     "apollo-server": "3.3.0",
     "graphql": "15.5.0",
     "nexus": "^1.0.0",

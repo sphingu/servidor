@@ -66,8 +66,8 @@ export const UpdateUser = mutationField('updateUser', {
   },
   resolve(_, args, ctx) {
     const data = {
-      name: args.name !== null ? args.name : undefined,
-      email: args.email !== null ? args.email : undefined,
+      name: args.name || undefined,
+      email: args.email || undefined,
     }
 
     return ctx.db.user.update({

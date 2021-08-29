@@ -1,11 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,32 +6,31 @@ generator nexusPrisma {
   provider = "nexus-prisma"
 }
 
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  email String?
-
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-
-  transactions Transaction[] @relation("PayerTransactions")
-
+  id                Int           @id @default(autoincrement())
+  name              String        @unique
+  email             String?
+  createAt          DateTime      @default(now())
+  updateAt          DateTime      @updatedAt
+  transactions      Transaction[] @relation("PayerTransactions")
   ownedTransactions Transaction[]
 }
 
 model Transaction {
-  id   Int    @id @default(autoincrement())
-  name String
-
-  payer   User @relation("PayerTransactions", fields: [payerId], references: [id])
-  payerId Int
-
+  id         Int      @id @default(autoincrement())
+  name       String
+  amount     Int
+  payerId    Int
+  date       DateTime
+  month      Int
+  year       Int
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+  payer      User     @relation("PayerTransactions", fields: [payerId], references: [id])
   ownedUsers User[]
-
-  date  DateTime
-  month Int // constraint min 1 max 12
-  year  Int // constaint min 2020 max 2050
-
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
 }
