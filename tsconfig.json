@@ -6,7 +6,9 @@
     "outDir": "dist",
     "strict": true,
     "lib": ["esnext"],
-    "rootDir": "src",
+    "rootDirs": ["src", "cypress"],
+    "types": ["cypress"],
+    "baseUrl": ".",
     "esModuleInterop": true
   }
 }
