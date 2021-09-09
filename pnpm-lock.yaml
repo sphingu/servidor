@@ -8,6 +8,7 @@ specifiers:
   apollo-server: 3.3.0
   apollo-server-core: ^3.3.0
   cypress: ^8.3.1
+  cypress-promise: ^1.1.0
   eslint: 7.25.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^3.4.0
@@ -34,6 +35,7 @@ devDependencies:
   '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.2.4
   apollo-server-core: 3.3.0_graphql@15.5.0
   cypress: 8.3.1
+  cypress-promise: 1.1.0
   eslint: 7.25.0
   eslint-config-prettier: 8.3.0_eslint@7.25.0
   eslint-plugin-prettier: 3.4.1_d6ce0fdc13149c2c805cd3615afb07f9
@@ -1171,6 +1173,10 @@ packages:
 
   /cssfilter/0.0.10:
     resolution: {integrity: sha1-xtJnJjKi5cg+AT5oZKQs6N79IK4=}
+
+  /cypress-promise/1.1.0:
+    resolution: {integrity: sha512-DhIf5PJ/a0iY+Yii6n7Rbwq+9TJxU4pupXYzf9mZd8nPG0AzQrj9i+pqINv4xbI2EV1p+PKW3maCkR7oPG4GrA==}
+    dev: true
 
   /cypress/8.3.1:
     resolution: {integrity: sha512-1v6pfx+/5cXhaT5T6QKOvnkawmEHWHLiVzm3MYMoQN1fkX2Ma1C32STd3jBStE9qT5qPSTILjGzypVRxCBi40g==}

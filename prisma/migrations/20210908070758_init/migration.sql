@@ -22,7 +22,7 @@ CREATE TABLE "Transaction" (
 );
 
 -- CreateTable
-CREATE TABLE "_TransactionToUser" (
+CREATE TABLE "_UsersOwnedTransactions" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL,
     FOREIGN KEY ("A") REFERENCES "Transaction" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -33,7 +33,7 @@ CREATE TABLE "_TransactionToUser" (
 CREATE UNIQUE INDEX "User.name_unique" ON "User"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_TransactionToUser_AB_unique" ON "_TransactionToUser"("A", "B");
+CREATE UNIQUE INDEX "_UsersOwnedTransactions_AB_unique" ON "_UsersOwnedTransactions"("A", "B");
 
 -- CreateIndex
-CREATE INDEX "_TransactionToUser_B_index" ON "_TransactionToUser"("B");
+CREATE INDEX "_UsersOwnedTransactions_B_index" ON "_UsersOwnedTransactions"("B");

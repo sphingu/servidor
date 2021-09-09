@@ -18,7 +18,7 @@ model User {
   createAt          DateTime      @default(now())
   updateAt          DateTime      @updatedAt
   transactions      Transaction[] @relation("PayerTransactions")
-  ownedTransactions Transaction[]
+  ownedTransactions Transaction[] @relation("UsersOwnedTransactions", references: [id])
 }
 
 model Transaction {
@@ -32,5 +32,5 @@ model Transaction {
   createAt   DateTime @default(now())
   updateAt   DateTime @updatedAt
   payer      User     @relation("PayerTransactions", fields: [payerId], references: [id])
-  ownedUsers User[]
+  ownedUsers User[]   @relation("UsersOwnedTransactions", references: [id])
 }

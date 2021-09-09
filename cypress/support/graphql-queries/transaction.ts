@@ -39,7 +39,7 @@ export const create = (
   date: Date,
 ): string => `
   mutation {
-    createTransaction(
+    createTransaction (
       name: "${name}"
       amount: ${amount}
       payerId: ${payerId}
@@ -81,6 +81,15 @@ export const remove = (id: number): string => `
   mutation{
     deleteTransaction(id: ${id}) {
       id
+    }
+  }
+`
+export const monthly = `\
+  query {
+    monthlyTransactions {
+      month,
+      year,
+      count
     }
   }
 `

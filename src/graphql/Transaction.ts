@@ -1,4 +1,5 @@
 import { Transaction as TransactionSchema } from 'nexus-prisma'
+
 import {
   intArg,
   nonNull,
@@ -10,6 +11,7 @@ import {
 } from 'nexus'
 
 import { dateTimeArg } from './helpers'
+import { PrismaClient } from '.prisma/client'
 
 export const Transaction = objectType({
   name: TransactionSchema.$name,
@@ -26,6 +28,15 @@ export const Transaction = objectType({
     t.field(TransactionSchema.date)
     t.field(TransactionSchema.month)
     t.field(TransactionSchema.year)
+  },
+})
+
+export const MonthTransactions = objectType({
+  name: 'MonthTransactions',
+  definition(t) {
+    t.int('month')
+    t.int('year')
+    t.int('count')
   },
 })
 
@@ -48,6 +59,26 @@ export const Transactions = queryField((t) => {
       return ctx.db.transaction.findUnique({
         where: { id: args.id },
       })
+    },
+  })
+
+  // Transaction count by Month-Year
+  t.list.field('monthlyTransactions', {
+    type: MonthTransactions,
+    resolve(_, __, ctx) {
+      return (ctx.db as PrismaClient).transaction
+        .groupBy({
+          by: ['month', 'year'],
+          orderBy: [{ year: 'desc' }, { month: 'desc' }],
+          _count: true,
+        })
+        .then((list) =>
+          list.map((item) => ({
+            year: item.year,
+            month: item.month,
+            count: item._count,
+          })),
+        )
     },
   })
 })
