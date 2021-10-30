@@ -8,13 +8,15 @@ generator nexusPrisma {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = env("DB_URL")
 }
 
 model User {
-  id                Int           @id @default(autoincrement())
-  name              String        @unique
-  email             String?
+  id                String        @id @default(uuid())
+  firstName         String?
+  lastName          String?
+  email             String       @unique
+  googleId          String?
   createAt          DateTime      @default(now())
   updateAt          DateTime      @updatedAt
   transactions      Transaction[] @relation("PayerTransactions")
@@ -22,10 +24,10 @@ model User {
 }
 
 model Transaction {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(uuid())
   name       String
   amount     Int
-  payerId    Int
+  payerId    String
   date       DateTime
   month      Int
   year       Int

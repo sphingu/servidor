@@ -9,7 +9,7 @@
     "preinstall": "npx only-allow pnpm",
     "start": "npm run build && node dist/index.js",
     "dev": "nodemon",
-    "dev-from-sample": "ts-node-dev --transpile-only --no-notify api/index.ts",
+    "dev-from-sample": "ts-node-dev --transpile-only --no-notify src/index.ts",
     "build:reflection": "NEXUS_SHOULD_EXIT_AFTER_REFLECTION=true ts-node src/index.ts",
     "build": "rimraf ./dist && tsc",
     "prisma": "prisma",
@@ -24,10 +24,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@types/express-session": "^1.17.4",
     "@types/node": "16.7.1",
+    "@types/passport": "^1.0.7",
+    "@types/passport-google-oauth20": "^2.0.10",
+    "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@typescript-eslint/parser": "4.22.0",
-    "apollo-server-core": "^3.3.0",
+    "apollo-server-core": "^3.4.0",
     "cypress": "^8.3.1",
     "cypress-promise": "^1.1.0",
     "eslint": "7.25.0",
@@ -42,10 +46,15 @@
   },
   "dependencies": {
     "@prisma/client": "^2.30.0",
-    "apollo-server": "3.3.0",
+    "apollo-server-express": "^3.4.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "graphql": "15.5.0",
     "nexus": "^1.0.0",
-    "nexus-prisma": "^0.32.0"
+    "nexus-prisma": "^0.32.0",
+    "passport": "^0.5.0",
+    "passport-google-oauth20": "^2.0.0",
+    "uuid": "^8.3.2"
   },
   "engines": {
     "node": ">=14"

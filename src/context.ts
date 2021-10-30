@@ -1,16 +1,18 @@
 import { PrismaClient } from '@prisma/client'
-import { $settings } from 'nexus-prisma'
+import { ApolloError } from 'apollo-server-express'
 
-import { db } from './db'
+export const prisma = new PrismaClient()
 
 export interface Context {
-  db: PrismaClient
+  user: Express.User
+  prisma: PrismaClient
 }
 
-export const context = {
-  db,
-}
+export const createContext = ({ req }: { req: Express.Request }): Context => {
+  if (!req.user) throw new ApolloError('User not authenticated')
 
-$settings({
-  prismaClientContextField: 'db', // <-- Tell Nexus Prisma
-})
+  return {
+    user: req.user,
+    prisma,
+  }
+}

@@ -11,7 +11,7 @@ import {
 } from 'nexus'
 
 import { dateTimeArg } from './helpers'
-import { PrismaClient } from '.prisma/client'
+import { Context } from 'src/context'
 
 export const Transaction = objectType({
   name: TransactionSchema.$name,
@@ -37,6 +37,7 @@ export const MonthTransactions = objectType({
     t.int('month')
     t.int('year')
     t.int('count')
+    t.int('sum')
   },
 })
 
@@ -44,8 +45,8 @@ export const Transactions = queryField((t) => {
   // Transaction List
   t.list.field('transactions', {
     type: Transaction,
-    resolve(_, __, ctx) {
-      return ctx.db.transaction.findMany()
+    resolve(_, __, ctx: Context) {
+      return ctx.prisma.transaction.findMany()
     },
   })
 
@@ -53,10 +54,10 @@ export const Transactions = queryField((t) => {
   t.field('transaction', {
     type: Transaction,
     args: {
-      id: nonNull(intArg()),
+      id: nonNull(stringArg()),
     },
-    resolve(_, args, ctx) {
-      return ctx.db.transaction.findUnique({
+    resolve(_, args, ctx: Context) {
+      return ctx.prisma.transaction.findUnique({
         where: { id: args.id },
       })
     },
@@ -65,18 +66,22 @@ export const Transactions = queryField((t) => {
   // Transaction count by Month-Year
   t.list.field('monthlyTransactions', {
     type: MonthTransactions,
-    resolve(_, __, ctx) {
-      return (ctx.db as PrismaClient).transaction
+    resolve(_, __, ctx: Context) {
+      return ctx.prisma.transaction
         .groupBy({
           by: ['month', 'year'],
           orderBy: [{ year: 'desc' }, { month: 'desc' }],
           _count: true,
+          _sum: {
+            amount: true,
+          },
         })
         .then((list) =>
           list.map((item) => ({
             year: item.year,
             month: item.month,
             count: item._count,
+            sum: item._sum.amount,
           })),
         )
     },
@@ -88,16 +93,16 @@ export const CreateTransaction = mutationField('createTransaction', {
   args: {
     name: nonNull(stringArg()),
     amount: nonNull(intArg()),
-    payerId: nonNull(intArg()),
-    ownedUserIds: nonNull(list(nonNull(intArg()))),
+    payerId: nonNull(stringArg()),
+    ownedUserIds: nonNull(list(nonNull(stringArg()))),
     date: nonNull(dateTimeArg({ type: 'DateTime' })),
   },
-  resolve(_, args, ctx) {
-    const ownedUserIds = args.ownedUserIds.map((val: number) => ({ id: val }))
+  resolve(_, args, ctx: Context) {
+    const ownedUserIds = args.ownedUserIds.map((val: string) => ({ id: val }))
     const month = args.date.getUTCMonth() + 1
     const year = args.date.getUTCFullYear()
 
-    return ctx.db.transaction.create({
+    return ctx.prisma.transaction.create({
       data: {
         name: args.name,
         amount: args.amount,
@@ -118,19 +123,19 @@ export const CreateTransaction = mutationField('createTransaction', {
 export const UpdateTransaction = mutationField('updateTransaction', {
   type: Transaction,
   args: {
-    id: nonNull(intArg()),
+    id: nonNull(stringArg()),
     name: stringArg(),
     amount: intArg(),
-    payerId: intArg(),
-    ownedUserIds: list(nonNull(intArg())),
+    payerId: stringArg(),
+    ownedUserIds: list(nonNull(stringArg())),
     date: dateTimeArg({ type: 'DateTime' }),
   },
-  resolve(_, args, ctx) {
+  resolve(_, args, ctx: Context) {
     const user = {
       ownedUsers: args.ownedUserIds?.length
         ? {
             set: [],
-            connect: args.ownedUserIds.map((val: number) => ({ id: val })),
+            connect: args.ownedUserIds.map((val: string) => ({ id: val })),
           }
         : undefined,
       name: args.name || undefined,
@@ -145,7 +150,7 @@ export const UpdateTransaction = mutationField('updateTransaction', {
       year: args.date ? args.date.getUTCFullYear() : undefined,
     }
 
-    return ctx.db.transaction.update({
+    return ctx.prisma.transaction.update({
       where: { id: args.id },
       data: user,
     })
@@ -155,10 +160,10 @@ export const UpdateTransaction = mutationField('updateTransaction', {
 export const DeleteTransaction = mutationField('deleteTransaction', {
   type: Transaction,
   args: {
-    id: nonNull(intArg()),
+    id: nonNull(stringArg()),
   },
-  resolve(_, args, ctx) {
-    return ctx.db.transaction.delete({
+  resolve(_, args, ctx: Context) {
+    return ctx.prisma.transaction.delete({
       where: {
         id: args.id,
       },
