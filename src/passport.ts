@@ -25,7 +25,6 @@ const googleCallback = async (
   profile: Profile,
   done: VerifyCallback,
 ) => {
-  console.log('callback', profile)
   const matchingUser = await prisma.user.findFirst({
     where: { googleId: profile.id },
   })
@@ -38,7 +37,7 @@ const googleCallback = async (
     return
   }
 
-  const email = profile.emails && profile.emails[0] && profile.emails[0].value
+  const email = profile._json.email
   if (!email) {
     done(new Error('Email no available'))
     return
@@ -50,6 +49,7 @@ const googleCallback = async (
       lastName: profile.name?.familyName,
       email: email,
       googleId: profile.id,
+      imageUrl: profile._json.picture,
     },
   })
 
@@ -64,11 +64,9 @@ passport.use(new GoogleStrategy(googleOptions, googleCallback))
 //#endregion
 
 passport.serializeUser((user, done) => {
-  console.log('serialize', user)
   done(null, user.id)
 })
 passport.deserializeUser(async (id: string, done) => {
-  console.log('deserialize', id)
   const user = await prisma.user.findUnique({
     where: { id: id },
   })

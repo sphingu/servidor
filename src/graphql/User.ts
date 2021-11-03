@@ -15,8 +15,10 @@ export const User = objectType({
     t.field(UserSchema.id)
     t.field(UserSchema.firstName)
     t.field(UserSchema.lastName)
-    t.field(UserSchema.googleId)
+    // t.field(UserSchema.googleId)
+    t.field(UserSchema.imageUrl)
     t.field(UserSchema.email)
+    t.field(UserSchema.groups)
   },
 })
 
@@ -26,6 +28,15 @@ export const Users = queryField((t) => {
     type: User,
     resolve(_, __, ctx: Context) {
       return ctx.prisma.user.findMany()
+    },
+  })
+  // Current User
+  t.field('currentUser', {
+    type: User,
+    resolve(_, __, ctx: Context) {
+      return ctx.prisma.user.findUnique({
+        where: { id: ctx.user.id },
+      })
     },
   })
 
@@ -43,7 +54,9 @@ export const Users = queryField((t) => {
   })
 })
 
-export const CreateUser = mutationField('createUser', {
+// TODO: make this CRUD of user role wise
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const CreateUser = mutationField('createUser', {
   type: User,
   args: {
     firstName: stringArg(),
@@ -61,7 +74,8 @@ export const CreateUser = mutationField('createUser', {
   },
 })
 
-export const UpdateUser = mutationField('updateUser', {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const UpdateUser = mutationField('updateUser', {
   type: User,
   args: {
     id: nonNull(stringArg()),
@@ -83,7 +97,8 @@ export const UpdateUser = mutationField('updateUser', {
   },
 })
 
-export const DeleteUser = mutationField('deleteUser', {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const DeleteUser = mutationField('deleteUser', {
   type: User,
   args: {
     id: nonNull(stringArg()),

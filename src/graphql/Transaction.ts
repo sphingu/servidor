@@ -131,7 +131,7 @@ export const UpdateTransaction = mutationField('updateTransaction', {
     date: dateTimeArg({ type: 'DateTime' }),
   },
   resolve(_, args, ctx: Context) {
-    const user = {
+    const transaction = {
       ownedUsers: args.ownedUserIds?.length
         ? {
             set: [],
@@ -152,7 +152,7 @@ export const UpdateTransaction = mutationField('updateTransaction', {
 
     return ctx.prisma.transaction.update({
       where: { id: args.id },
-      data: user,
+      data: transaction,
     })
   },
 })

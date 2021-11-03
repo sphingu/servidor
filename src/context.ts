@@ -9,7 +9,7 @@ export interface Context {
 }
 
 export const createContext = ({ req }: { req: Express.Request }): Context => {
-  if (!req.user) throw new ApolloError('User not authenticated')
+  if (!req.user) throw new ApolloError('User not authenticated', 'UNAUTHORIZED')
 
   return {
     user: req.user,

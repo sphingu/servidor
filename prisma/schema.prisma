@@ -15,12 +15,14 @@ model User {
   id                String        @id @default(uuid())
   firstName         String?
   lastName          String?
-  email             String       @unique
+  email             String        @unique
   googleId          String?
+  imageUrl          String?
   createAt          DateTime      @default(now())
   updateAt          DateTime      @updatedAt
   transactions      Transaction[] @relation("PayerTransactions")
   ownedTransactions Transaction[] @relation("UsersOwnedTransactions", references: [id])
+  groups            Group[]       @relation("GroupUser", references: [id])
 }
 
 model Transaction {
@@ -35,4 +37,13 @@ model Transaction {
   updateAt   DateTime @updatedAt
   payer      User     @relation("PayerTransactions", fields: [payerId], references: [id])
   ownedUsers User[]   @relation("UsersOwnedTransactions", references: [id])
+}
+
+model Group {
+  id              String   @id @default(uuid())
+  name            String
+  isMonthlySettle Boolean  @default(false)
+  users           User[]   @relation("GroupUser", references: [id])
+  createAt        DateTime @default(now())
+  updateAt        DateTime @updatedAt
 }
